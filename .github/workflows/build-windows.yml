@@ -1,0 +1,42 @@
+name: Build Nintendo Game Music Viewer V1 (Windows x64)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure
+        shell: pwsh
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DNGMV_BUILD_TESTS=ON
+
+      - name: Build
+        shell: pwsh
+        run: cmake --build build --config Release --parallel
+
+      - name: Test
+        shell: pwsh
+        run: ctest --test-dir build --output-on-failure -C Release
+
+      - name: Package
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path artifact | Out-Null
+          Copy-Item build/NintendoGameMusicViewer.exe artifact/NintendoGameMusicViewer.exe
+          Copy-Item README.md artifact/README.md
+          Copy-Item THIRD_PARTY_NOTICES.md artifact/THIRD_PARTY_NOTICES.md
+          Compress-Archive -Path artifact/* -DestinationPath NintendoGameMusicViewer-V1-Windows-x64.zip -Force
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NintendoGameMusicViewer-V1-Windows-x64
+          path: NintendoGameMusicViewer-V1-Windows-x64.zip
+          if-no-files-found: error
