@@ -15,7 +15,7 @@ jobs:
 
       - name: Configure
         shell: pwsh
-        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DNGMV_BUILD_TESTS=ON
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DNGMV_BUILD_TESTS=ON -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 
       - name: Build
         shell: pwsh

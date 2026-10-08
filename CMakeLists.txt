@@ -5,6 +5,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
+# Allow older third-party CMake projects (notably vendored FreeType in SDL2_ttf)
+# to configure when using modern CMake versions.
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
 
 option(NGMV_BUILD_TESTS "Build smoke tests" ON)
 

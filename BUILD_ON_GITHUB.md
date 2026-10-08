@@ -7,3 +7,7 @@
 5. When it succeeds, download the Windows ZIP from **Artifacts**.
 
 No .NET SDK is required. The workflow uses CMake/Ninja on a Windows runner and fetches SDL2, SDL2_ttf and libgme during the build.
+
+
+### CMake compatibility fix
+The GitHub Actions workflow passes `-DCMAKE_POLICY_VERSION_MINIMUM=3.5` so the vendored FreeType copy used by SDL2_ttf 2.24.0 can configure under current CMake versions.
